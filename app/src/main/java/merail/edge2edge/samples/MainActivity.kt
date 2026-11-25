@@ -1,47 +1,40 @@
 package merail.edge2edge.samples
 
+import android.graphics.Color
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import merail.edge2edge.samples.ui.theme.EdgeToEdgeSamplesTheme
+import androidx.core.content.ContextCompat
+import merail.edge2edge.samples.navigation.Navigator
+import merail.edge2edge.samples.screens.SamplesScreen
 
-class MainActivity: ComponentActivity() {
+class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            EdgeToEdgeSamplesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        enableEdgeToEdge(
+            // The system bars are transparent: the content itself is drawn under them
+            statusBarStyle = SystemBarStyle.light(
+                scrim = Color.TRANSPARENT,
+                darkScrim = Color.TRANSPARENT,
+            ),
+            navigationBarStyle = SystemBarStyle.light(
+                scrim = Color.TRANSPARENT,
+                // Before Android 8 the navigation bar cannot have dark icons,
+                // so it is drawn with this solid color instead of a transparent one
+                darkScrim = ContextCompat.getColor(this, R.color.screen_background),
+            ),
+        )
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EdgeToEdgeSamplesTheme {
-        Greeting("Android")
+        val container = FrameLayout(this)
+        setContentView(container)
+
+        Navigator(
+            activity = this,
+            container = container,
+        ).push(SamplesScreen)
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The gap between the content and the open keyboard -->
+    <dimen name="ime_top_padding">12dp</dimen>
+    <dimen name="screen_padding">16dp</dimen>
+    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="dialog_margin">24dp</dimen>
+    <dimen name="banner_margin">12dp</dimen>
+</resources>
